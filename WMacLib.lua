@@ -1,7 +1,14 @@
+--[[
+todo: faster loading lucide icons 
+added new themes 
+and more
+]]
+
 local WMacLib = { 
 	Options = {}, 
 	Folder = "Maclib", 
 	Themes = {},
+	_watermarks = {},
 	CurrentTheme = "Dark",
 	themeCallbacks = {},
 	GetService = function(service)
@@ -82,10 +89,8 @@ do
 				return id
 			end
 			if instance then
-				task.spawn(function()
-					table.insert(_iconsCallbacks, function(icons)
-						instance[prop] = resolveWithIcons(icons, path)
-					end)
+				table.insert(_iconsCallbacks, function(icons)
+					instance[prop] = resolveWithIcons(icons, path)
 				end)
 			end
 			return ""
@@ -135,18 +140,6 @@ WMacLib:AddTheme({
 })
 
 WMacLib:AddTheme({
-	Name = "Light",
-	Accent = Color3.fromRGB(210, 210, 218),
-	Background = Color3.fromRGB(245, 245, 245),
-	Surface = Color3.fromRGB(30, 30, 40),
-	Outline = Color3.fromRGB(0, 0, 0),
-	Text = Color3.fromRGB(20, 20, 20),
-	Placeholder = Color3.fromRGB(100, 100, 110),
-	Button = Color3.fromRGB(160, 160, 170),
-	Icon = Color3.fromRGB(60, 60, 70),
-})
-
-WMacLib:AddTheme({
 	Name = "Midnight",
 	Accent = Color3.fromRGB(13, 17, 38),
 	Background = Color3.fromRGB(8, 10, 24),
@@ -158,7 +151,89 @@ WMacLib:AddTheme({
 	Icon = Color3.fromRGB(140, 160, 230),
 })
 
+WMacLib:AddTheme({
+	Name = "Rose",
+	Accent = Color3.fromRGB(40, 18, 22),
+	Background = Color3.fromRGB(20, 10, 13),
+	Surface = Color3.fromRGB(255, 200, 210),
+	Outline = Color3.fromRGB(180, 60, 85),
+	Text = Color3.fromRGB(255, 220, 225),
+	Placeholder = Color3.fromRGB(140, 90, 100),
+	Button = Color3.fromRGB(110, 35, 50),
+	Icon = Color3.fromRGB(220, 130, 150),
+})
 
+WMacLib:AddTheme({
+	Name = "Forest",
+	Accent = Color3.fromRGB(18, 32, 20),
+	Background = Color3.fromRGB(10, 18, 11),
+	Surface = Color3.fromRGB(180, 230, 190),
+	Outline = Color3.fromRGB(50, 140, 70),
+	Text = Color3.fromRGB(200, 240, 210),
+	Placeholder = Color3.fromRGB(90, 130, 100),
+	Button = Color3.fromRGB(30, 90, 45),
+	Icon = Color3.fromRGB(120, 200, 140),
+})
+
+WMacLib:AddTheme({
+	Name = "Ocean",
+	Accent = Color3.fromRGB(10, 22, 40),
+	Background = Color3.fromRGB(5, 12, 24),
+	Surface = Color3.fromRGB(160, 210, 255),
+	Outline = Color3.fromRGB(30, 100, 200),
+	Text = Color3.fromRGB(190, 225, 255),
+	Placeholder = Color3.fromRGB(70, 110, 160),
+	Button = Color3.fromRGB(20, 65, 140),
+	Icon = Color3.fromRGB(100, 170, 240),
+})
+
+WMacLib:AddTheme({
+	Name = "Amethyst",
+	Accent = Color3.fromRGB(28, 15, 45),
+	Background = Color3.fromRGB(14, 8, 24),
+	Surface = Color3.fromRGB(210, 180, 255),
+	Outline = Color3.fromRGB(120, 60, 210),
+	Text = Color3.fromRGB(225, 210, 255),
+	Placeholder = Color3.fromRGB(120, 95, 160),
+	Button = Color3.fromRGB(75, 35, 140),
+	Icon = Color3.fromRGB(175, 135, 240),
+})
+
+WMacLib:AddTheme({
+	Name = "Ember",
+	Accent = Color3.fromRGB(40, 20, 8),
+	Background = Color3.fromRGB(20, 10, 4),
+	Surface = Color3.fromRGB(255, 200, 160),
+	Outline = Color3.fromRGB(200, 90, 20),
+	Text = Color3.fromRGB(255, 225, 200),
+	Placeholder = Color3.fromRGB(150, 100, 70),
+	Button = Color3.fromRGB(140, 55, 10),
+	Icon = Color3.fromRGB(235, 150, 80),
+})
+
+WMacLib:AddTheme({
+	Name = "Obsidian",
+	Accent = Color3.fromRGB(28, 28, 30),
+	Background = Color3.fromRGB(10, 10, 12),
+	Surface = Color3.fromRGB(200, 200, 205),
+	Outline = Color3.fromRGB(70, 70, 80),
+	Text = Color3.fromRGB(215, 215, 220),
+	Placeholder = Color3.fromRGB(90, 90, 100),
+	Button = Color3.fromRGB(55, 55, 65),
+	Icon = Color3.fromRGB(150, 150, 165),
+})
+
+WMacLib:AddTheme({
+	Name = "Tokyo Night",
+	Accent = Color3.fromRGB(22, 22, 37),
+	Background = Color3.fromRGB(15, 16, 28),
+	Surface = Color3.fromRGB(192, 202, 245),
+	Outline = Color3.fromRGB(41, 46, 73),
+	Text = Color3.fromRGB(192, 202, 245),
+	Placeholder = Color3.fromRGB(86, 95, 137),
+	Button = Color3.fromRGB(35, 38, 58),
+	Icon = Color3.fromRGB(122, 162, 247),
+})
 
 --// Services
 local TweenService = WMacLib.GetService("TweenService")
@@ -1543,6 +1618,7 @@ function WMacLib:Window(Settings)
 		divider3.BorderSizePixel = 0
 		divider3.Position = UDim2.fromScale(0.5, 1)
 		divider3.Size = UDim2.new(1, -21, 0, 1)
+		divider3.Visible = Settings.TabLineSeparator ~= false
 		divider3.Parent = tabGroup
 
 		local sectionTabSwitchers = Instance.new("Frame")
@@ -5257,7 +5333,7 @@ function WMacLib:Window(Settings)
 			line.Name = "Line"
 			line.AnchorPoint = Vector2.new(0.5, 0.5)
 			line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			line.BackgroundTransparency = 0.85
+			line.BackgroundTransparency = 0.9
 			line.BorderColor3 = Color3.fromRGB(0, 0, 0)
 			line.BorderSizePixel = 0
 			line.Position = UDim2.fromScale(0.5, 0.5)
@@ -5763,6 +5839,10 @@ function WMacLib:Window(Settings)
 		if onUnloadCallback then
 			onUnloadCallback()  
 		end
+		for _, wm in ipairs(WMacLib._watermarks) do
+			wm:Destroy()
+		end
+		WMacLib._watermarks = {}
 		macLib:Destroy()
 		unloaded = true
 	end
@@ -6211,6 +6291,8 @@ function WMacLib:Watermark(Settings)
 
 	local WatermarkFunctions = {}
 
+	table.insert(WMacLib._watermarks, WatermarkFunctions)
+
 	function WatermarkFunctions:Set(key, value)
 		if statsLabels[key] then
 			statsLabels[key].Text = tostring(value)
@@ -6227,6 +6309,12 @@ function WMacLib:Watermark(Settings)
 
 	function WatermarkFunctions:Destroy()
 		gui:Destroy()
+		for i, wm in ipairs(WMacLib._watermarks) do
+			if wm == self then
+				table.remove(WMacLib._watermarks, i)
+				break
+			end
+		end
 	end
 
 	function WatermarkFunctions:SetVisible(bool)
