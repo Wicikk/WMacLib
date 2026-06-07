@@ -136,18 +136,6 @@ WMacLib:AddTheme({
 })
 
 WMacLib:AddTheme({
-	Name = "Light",
-	Accent = Color3.fromRGB(210, 210, 218),
-	Background = Color3.fromRGB(245, 245, 245),
-	Surface = Color3.fromRGB(30, 30, 40),
-	Outline = Color3.fromRGB(0, 0, 0),
-	Text = Color3.fromRGB(20, 20, 20),
-	Placeholder = Color3.fromRGB(100, 100, 110),
-	Button = Color3.fromRGB(160, 160, 170),
-	Icon = Color3.fromRGB(60, 60, 70),
-})
-
-WMacLib:AddTheme({
 	Name = "Midnight",
 	Accent = Color3.fromRGB(13, 17, 38),
 	Background = Color3.fromRGB(8, 10, 24),
@@ -220,18 +208,6 @@ WMacLib:AddTheme({
 })
 
 WMacLib:AddTheme({
-	Name = "Arctic",
-	Accent = Color3.fromRGB(220, 230, 245),
-	Background = Color3.fromRGB(240, 245, 255),
-	Surface = Color3.fromRGB(30, 40, 60),
-	Outline = Color3.fromRGB(140, 170, 210),
-	Text = Color3.fromRGB(20, 30, 50),
-	Placeholder = Color3.fromRGB(120, 140, 170),
-	Button = Color3.fromRGB(170, 195, 225),
-	Icon = Color3.fromRGB(70, 100, 150),
-})
-
-WMacLib:AddTheme({
 	Name = "Obsidian",
 	Accent = Color3.fromRGB(28, 28, 30),
 	Background = Color3.fromRGB(10, 10, 12),
@@ -244,18 +220,40 @@ WMacLib:AddTheme({
 })
 
 WMacLib:AddTheme({
-	Name = "Sakura",
-	Accent = Color3.fromRGB(255, 225, 235),
-	Background = Color3.fromRGB(255, 240, 245),
-	Surface = Color3.fromRGB(160, 50, 80),
-	Outline = Color3.fromRGB(220, 130, 160),
-	Text = Color3.fromRGB(100, 30, 55),
-	Placeholder = Color3.fromRGB(190, 130, 150),
-	Button = Color3.fromRGB(240, 180, 200),
-	Icon = Color3.fromRGB(180, 80, 110),
+	Name = "Dracula",
+	Accent = Color3.fromRGB(40, 42, 54),
+	Background = Color3.fromRGB(30, 31, 41),
+	Surface = Color3.fromRGB(248, 248, 242),
+	Outline = Color3.fromRGB(68, 71, 90),
+	Text = Color3.fromRGB(248, 248, 242),
+	Placeholder = Color3.fromRGB(98, 114, 164),
+	Button = Color3.fromRGB(55, 57, 72),
+	Icon = Color3.fromRGB(189, 147, 249),
 })
 
+WMacLib:AddTheme({
+	Name = "Tokyo Night",
+	Accent = Color3.fromRGB(22, 22, 37),
+	Background = Color3.fromRGB(15, 16, 28),
+	Surface = Color3.fromRGB(192, 202, 245),
+	Outline = Color3.fromRGB(41, 46, 73),
+	Text = Color3.fromRGB(192, 202, 245),
+	Placeholder = Color3.fromRGB(86, 95, 137),
+	Button = Color3.fromRGB(35, 38, 58),
+	Icon = Color3.fromRGB(122, 162, 247),
+})
 
+WMacLib:AddTheme({
+	Name = "Solarized",
+	Accent = Color3.fromRGB(0, 43, 54),
+	Background = Color3.fromRGB(0, 35, 45),
+	Surface = Color3.fromRGB(131, 148, 150),
+	Outline = Color3.fromRGB(7, 54, 66),
+	Text = Color3.fromRGB(147, 161, 161),
+	Placeholder = Color3.fromRGB(88, 110, 117),
+	Button = Color3.fromRGB(0, 52, 64),
+	Icon = Color3.fromRGB(38, 139, 210),
+}) 
 
 --// Services
 local TweenService = WMacLib.GetService("TweenService")
