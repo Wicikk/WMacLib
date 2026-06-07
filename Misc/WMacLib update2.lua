@@ -220,18 +220,6 @@ WMacLib:AddTheme({
 })
 
 WMacLib:AddTheme({
-	Name = "Dracula",
-	Accent = Color3.fromRGB(40, 42, 54),
-	Background = Color3.fromRGB(30, 31, 41),
-	Surface = Color3.fromRGB(248, 248, 242),
-	Outline = Color3.fromRGB(68, 71, 90),
-	Text = Color3.fromRGB(248, 248, 242),
-	Placeholder = Color3.fromRGB(98, 114, 164),
-	Button = Color3.fromRGB(55, 57, 72),
-	Icon = Color3.fromRGB(189, 147, 249),
-})
-
-WMacLib:AddTheme({
 	Name = "Tokyo Night",
 	Accent = Color3.fromRGB(22, 22, 37),
 	Background = Color3.fromRGB(15, 16, 28),
@@ -242,18 +230,6 @@ WMacLib:AddTheme({
 	Button = Color3.fromRGB(35, 38, 58),
 	Icon = Color3.fromRGB(122, 162, 247),
 })
-
-WMacLib:AddTheme({
-	Name = "Solarized",
-	Accent = Color3.fromRGB(0, 43, 54),
-	Background = Color3.fromRGB(0, 35, 45),
-	Surface = Color3.fromRGB(131, 148, 150),
-	Outline = Color3.fromRGB(7, 54, 66),
-	Text = Color3.fromRGB(147, 161, 161),
-	Placeholder = Color3.fromRGB(88, 110, 117),
-	Button = Color3.fromRGB(0, 52, 64),
-	Icon = Color3.fromRGB(38, 139, 210),
-}) 
 
 --// Services
 local TweenService = WMacLib.GetService("TweenService")
