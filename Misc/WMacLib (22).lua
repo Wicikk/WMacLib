@@ -1542,6 +1542,7 @@ function WMacLib:Window(Settings)
 		divider3.BorderSizePixel = 0
 		divider3.Position = UDim2.fromScale(0.5, 1)
 		divider3.Size = UDim2.new(1, -21, 0, 1)
+		divider3.Visible = Settings.TabLineSeparator ~= false
 		divider3.Parent = tabGroup
 
 		local sectionTabSwitchers = Instance.new("Frame")
@@ -1832,7 +1833,133 @@ function WMacLib:Window(Settings)
 				sectionUIPadding.PaddingTop = UDim.new(0, 22)
 				sectionUIPadding.Parent = section
 
-				function SectionFunctions:Button(Settings, Flag)
+				local sectionFrame = section
+
+				if Settings and Settings.Collapsible then
+					local sectionOuterLayout = Instance.new("UIListLayout")
+					sectionOuterLayout.Name = "SectionOuterLayout"
+					sectionOuterLayout.SortOrder = Enum.SortOrder.LayoutOrder
+					sectionOuterLayout.Parent = sectionFrame
+
+					local collapseHeader = Instance.new("TextButton")
+					collapseHeader.Name = "CollapseHeader"
+					collapseHeader.AutoButtonColor = false
+					collapseHeader.BackgroundTransparency = 1
+					collapseHeader.BorderSizePixel = 0
+					collapseHeader.FontFace = Font.new(assets.interFont)
+					collapseHeader.Text = ""
+					collapseHeader.TextColor3 = Color3.fromRGB(0, 0, 0)
+					collapseHeader.TextSize = 14
+					collapseHeader.Size = UDim2.new(1, 0, 0, 40)
+					collapseHeader.LayoutOrder = 0
+					collapseHeader.Parent = sectionFrame
+
+					local collapseHeaderPadding = Instance.new("UIPadding")
+					collapseHeaderPadding.Name = "CollapseHeaderPadding"
+					collapseHeaderPadding.PaddingLeft = UDim.new(0, 20)
+					collapseHeaderPadding.PaddingRight = UDim.new(0, 18)
+					collapseHeaderPadding.Parent = collapseHeader
+
+					local collapseTitle = Instance.new("TextLabel")
+					collapseTitle.Name = "CollapseTitle"
+					collapseTitle.FontFace = Font.new(assets.interFont, Enum.FontWeight.SemiBold)
+					collapseTitle.Text = Settings.Title or Settings.Name or ""
+					collapseTitle.RichText = true
+					setThemed(collapseTitle, "TextColor3", "Text")
+					collapseTitle.TextSize = 13
+					collapseTitle.TextTransparency = 0.3
+					collapseTitle.TextXAlignment = Enum.TextXAlignment.Left
+					collapseTitle.BackgroundTransparency = 1
+					collapseTitle.BorderSizePixel = 0
+					collapseTitle.AnchorPoint = Vector2.new(0, 0.5)
+					collapseTitle.Position = UDim2.fromScale(0, 0.5)
+					collapseTitle.AutomaticSize = Enum.AutomaticSize.XY
+					collapseTitle.Parent = collapseHeader
+
+					local collapseArrow = Instance.new("TextLabel")
+					collapseArrow.Name = "CollapseArrow"
+					collapseArrow.FontFace = Font.new(assets.interFont, Enum.FontWeight.Bold)
+					collapseArrow.Text = "▾"
+					setThemed(collapseArrow, "TextColor3", "Text")
+					collapseArrow.TextSize = 16
+					collapseArrow.TextTransparency = 0.4
+					collapseArrow.BackgroundTransparency = 1
+					collapseArrow.BorderSizePixel = 0
+					collapseArrow.AnchorPoint = Vector2.new(1, 0.5)
+					collapseArrow.Position = UDim2.fromScale(1, 0.5)
+					collapseArrow.AutomaticSize = Enum.AutomaticSize.XY
+					collapseArrow.Parent = collapseHeader
+
+					local contentInner = Instance.new("Frame")
+					contentInner.Name = "ContentInner"
+					contentInner.BackgroundTransparency = 1
+					contentInner.BorderSizePixel = 0
+					contentInner.Size = UDim2.fromScale(1, 0)
+					contentInner.AutomaticSize = Enum.AutomaticSize.Y
+					contentInner.ClipsDescendants = true
+					contentInner.LayoutOrder = 1
+					contentInner.Parent = sectionFrame
+
+					sectionUIListLayout.Parent = contentInner
+					sectionUIPadding.PaddingTop = UDim.new(0, 10)
+					sectionUIPadding.Parent = contentInner
+
+					local isCollapsed = Settings.Collapsed == true
+					local animating = false
+
+					local function applyState(instant)
+						if isCollapsed then
+							if instant then
+								contentInner.AutomaticSize = Enum.AutomaticSize.None
+								contentInner.Size = UDim2.new(1, 0, 0, 0)
+								collapseArrow.Rotation = -90
+							else
+								local h = contentInner.AbsoluteSize.Y
+								contentInner.AutomaticSize = Enum.AutomaticSize.None
+								contentInner.Size = UDim2.new(1, 0, 0, h)
+								Tween(collapseArrow, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {Rotation = -90}):Play()
+								Tween(contentInner, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {
+									Size = UDim2.new(1, 0, 0, 0)
+								}):Play()
+							end
+						else
+							local targetH = sectionUIListLayout.AbsoluteContentSize.Y
+								+ sectionUIPadding.PaddingTop.Offset
+								+ sectionUIPadding.PaddingBottom.Offset
+							if instant then
+								contentInner.AutomaticSize = Enum.AutomaticSize.Y
+								collapseArrow.Rotation = 0
+							else
+								contentInner.AutomaticSize = Enum.AutomaticSize.None
+								contentInner.Size = UDim2.new(1, 0, 0, 0)
+								Tween(collapseArrow, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {Rotation = 0}):Play()
+								local t = Tween(contentInner, TweenInfo.new(0.22, Enum.EasingStyle.Quad), {
+									Size = UDim2.new(1, 0, 0, targetH)
+								})
+								t:Play()
+								t.Completed:Connect(function()
+									if not isCollapsed then
+										contentInner.AutomaticSize = Enum.AutomaticSize.Y
+									end
+								end)
+							end
+						end
+					end
+
+					task.defer(function() applyState(true) end)
+
+					collapseHeader.MouseButton1Click:Connect(function()
+						if animating then return end
+						isCollapsed = not isCollapsed
+						animating = true
+						applyState(false)
+						task.delay(0.25, function() animating = false end)
+					end)
+
+					section = contentInner
+				end
+
+
 					local ButtonFunctions = {Settings = Settings}
 					local button = Instance.new("Frame")
 					local locked = false
@@ -5037,11 +5164,18 @@ function WMacLib:Window(Settings)
 				end
 
 				function SectionFunctions:SetVisible(State)
-					section.Visible = State
+					sectionFrame.Visible = State
+				end
+
+				function SectionFunctions:SetCollapsed(State)
+					local header = sectionFrame:FindFirstChild("CollapseHeader")
+					if not header then return end
+					local btn = header
+					btn.MouseButton1Click:Fire()
 				end
 
 				function SectionFunctions:Destroy()
-					section:Destroy()
+					sectionFrame:Destroy()
 				end
 
 				return SectionFunctions
@@ -6591,6 +6725,16 @@ function WMacLib:Demo()
 	end)
 
 	local miscSection = tabs.Misc:Section({})
+
+	local collapseDemo = tabs.Misc:Section({
+		Name = "Hidden Options",
+		Collapsible = true,
+		Collapsed = true,
+	})
+
+	collapseDemo:Toggle({ Name = "Option A", Default = false, Callback = function() end })
+	collapseDemo:Toggle({ Name = "Option B", Default = false, Callback = function() end })
+	collapseDemo:Slider({ Name = "Value", Min = 0, Max = 100, Default = 50, Callback = function() end })
 
 	miscSection:Dropdown({
 		Name = "Theme",
