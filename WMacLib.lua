@@ -1,5 +1,5 @@
 --[[
-added new themes 
+added new themes  
 and more
 todo: faster loading lucide icons 
 ]]
