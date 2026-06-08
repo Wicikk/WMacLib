@@ -1,7 +1,7 @@
 --[[
-todo: faster loading lucide icons 
 added new themes 
 and more
+todo: faster loading lucide icons 
 ]]
 
 local WMacLib = { 
